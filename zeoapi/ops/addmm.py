@@ -1,4 +1,4 @@
-import zeoapi.helper
+from zeoapi.helper import *
 
 def addmm(dest, args, seq, var_dict):
     assert len(args)==3, "Interpret [addmm] fail, please check it."
@@ -11,6 +11,6 @@ def addmm(dest, args, seq, var_dict):
 
 
 # test
-seq=[]
-dictt={ "Y": ("f32",[4,5]), "b": ("f32",[4,5]), "W": ("f32",[4,3]), "X":("f32",[3,5])}
-addmm("Y", ["b","W","X"], seq, dictt)
+#seq=[]
+#dictt={ "Y": ("f32",[4,5]), "b": ("f32",[4,5]), "W": ("f32",[4,3]), "X":("f32",[3,5])}
+#addmm("Y", ["b","W","X"], seq, dictt)
