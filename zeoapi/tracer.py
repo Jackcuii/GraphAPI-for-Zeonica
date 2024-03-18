@@ -1,5 +1,5 @@
 import re
-
+import json
 var_dict={}
 
 instr_seq = [];
@@ -13,7 +13,7 @@ then return the var name
 '''
 
 def formal_type_parser(item):
-  print("formal type:", item)
+  #print("formal type:", item)
   item = item.split(": ")
   name = item[0]
   assert item[1][3]=='[', "FATAL: Sorry, we only support i16, i32, i64, f16, f32, f64 now."
@@ -25,34 +25,60 @@ def formal_type_parser(item):
 
 def semantic(dest, name, args):
   import zeoapi.oplist
-  zeoapi.oplist.list[name](dest, args, instr_seq, var_dict)
+  zeoapi.oplist.llist[name](dest, args, instr_seq, var_dict)
+  #print("SEQ: ", instr_seq)
 
+
+anons = 0
+def find_anon(args):
+  #print("pre-anon:", args)
+  args = re.findall("\(.+\)",args)[0][1:-1]
+  while True:
+    global anons
+    found = re.search("\[.+\]",args)
+    if not found:
+      break
+    #print(found.group())
+    formal_type_parser("anon"+str(anons)+": f32"+found.group())  # need adapt when extend types
+    args = re.sub("\[.+\]", "anon"+str(anons), args)
+    #print("now args",args)
+    anons+=1
+  #print("anoned: ", args)
+  return args
 
 def literal(line):
   line = line.split(" = ")
-  dest = formal_type_parser(line[0])
-  func_call = re.findall(".+;",line)[0][:-1]
-  func_name = re.findall(".+(", func_call)[0][:-1]
-  func_args = re.findall("(.+)",func_name)[0][1:-1].split(", ")
+  dest = formal_type_parser(line[0][4:])
+  func_call = re.findall(".+;",line[1])[0][:-1]
+  #print(func_call)
+  func_name = re.findall(".+\(", func_call)[0][:-1]
+  func_args = find_anon(func_call).split(", ")
   semantic(dest, func_name, func_args)
 
 def code_process(code):
   code = code.split("\n")
   para_line = code[3]
-  print("paraline is ",para_line)
+  #print("paraline is ",para_line)
   para_line = re.findall("\(.+\):", para_line)[0][1:-2]
-  para_line = para_line.split(", ")
-  para_line = para_line[1:] # omit self
+  para_line = para_line.split("], ")
+  #print(para_line)
+  para_line = [ item+"]" for item in para_line ]
+  para_line[len(para_line)-1]=para_line[len(para_line)-1][:-1]
+  para_line[0] = para_line[0][6:] # omit self
+  # para_line = [for item in re.findall(".+, ", para_line) if item.count(": ")]para_line.split(", ")
+  # para_line = para_line[1:] # omit self
   para_line = [ formal_type_parser(item) for item in para_line ]
 
     # process the operators part.
-  code = code[4:]
+  code = code[5:-2]
   for line in code:
     literal(line)
 
 def jsonize():
   file = open("./instr-sequence.json","w")
-    
+  jsonized = json.dumps({"version": "0.1" , "mode": "test", "instrs": instr_seq}, indent=4)
+  #print(jsonized)
+  file.write(jsonized)
 
 forward_code=""
 backward_code=""
@@ -83,8 +109,8 @@ def trace_a_module(model, backward=True):
     a=torch.randn(1,28,28, requires_grad=True,device="cpu") 
     aot_print_fn = aot_module(model, fw_compiler=f_compiler,bw_compiler=b_compiler)
     run_func(aot_print_fn, a)
-  print("hahah:",forward_code)
-  print("hahah")
+  #print("hahah:",forward_code)
+  #print("hahah")
   code_process(forward_code)
   if(backward):
     code_process(backward_code)

@@ -10,4 +10,5 @@ def make_instr_2op(name, src, srcdim, dst, dstdim):
 
 def make_instr_3op(name, src1, src1dim, src2, src2dim, dst, dstdim):
     tmp_dict = {"instr": name, "args":[ {"symbol": src1, "dim": src1dim}, {"symbol": src2, "dim": src2dim}, {"symbol": dst, "dim": dstdim} ] }
+    #print(tmp_dict)
     return tmp_dict
