@@ -1,5 +1,5 @@
 # GraphAPI for Zeonica
-Pytorch graph interface for Zeonica, a CGRA &amp; Wafer simulator.
+**Pytorch graph interface** for Zeonica, a CGRA &amp; Wafer simulator.
 (Project by [Sarchlab W&M](https://sarchlab.org/) )
 
 This API is written in Python and its a published packet which could be installed with pip (not for now). It generates a instruction sequence of the forward and backward process from a given Pytorch module.
