@@ -1,0 +1,281 @@
+{
+    "version": "0.1",
+    "mode": "test",
+    "instrs": [
+        {
+            "instr": "32TRANSFORM",
+            "args": [
+                {
+                    "symbol": "primals_7",
+                    "dim": [
+                        1,
+                        28,
+                        28
+                    ]
+                },
+                {
+                    "symbol": "anon0",
+                    "dim": [
+                        1,
+                        784
+                    ]
+                },
+                {
+                    "symbol": "view",
+                    "dim": [
+                        1,
+                        784
+                    ]
+                }
+            ]
+        },
+        {
+            "instr": "32TRANSPOSE",
+            "args": [
+                {
+                    "symbol": "primals_1",
+                    "dim": [
+                        512,
+                        784
+                    ]
+                },
+                {
+                    "symbol": "t",
+                    "dim": [
+                        784,
+                        512
+                    ]
+                }
+            ]
+        },
+        {
+            "instr": "F32MATRIX_MUL",
+            "args": [
+                {
+                    "symbol": "view",
+                    "dim": [
+                        1,
+                        784
+                    ]
+                },
+                {
+                    "symbol": "t",
+                    "dim": [
+                        784,
+                        512
+                    ]
+                },
+                {
+                    "symbol": "_",
+                    "dim": [
+                        1,
+                        784
+                    ]
+                }
+            ]
+        },
+        {
+            "instr": "F32MATRIX_ADD",
+            "args": [
+                {
+                    "symbol": "primals_2",
+                    "dim": [
+                        512
+                    ]
+                },
+                {
+                    "symbol": "_",
+                    "dim": [
+                        1,
+                        784
+                    ]
+                },
+                {
+                    "symbol": "addmm",
+                    "dim": [
+                        1,
+                        512
+                    ]
+                }
+            ]
+        },
+        {
+            "instr": "F32RELU",
+            "args": [
+                {
+                    "symbol": "addmm",
+                    "dim": [
+                        1,
+                        512
+                    ]
+                },
+                {
+                    "symbol": "relu",
+                    "dim": [
+                        1,
+                        512
+                    ]
+                }
+            ]
+        },
+        {
+            "instr": "32TRANSPOSE",
+            "args": [
+                {
+                    "symbol": "primals_3",
+                    "dim": [
+                        512,
+                        512
+                    ]
+                },
+                {
+                    "symbol": "t_1",
+                    "dim": [
+                        512,
+                        512
+                    ]
+                }
+            ]
+        },
+        {
+            "instr": "F32MATRIX_MUL",
+            "args": [
+                {
+                    "symbol": "relu",
+                    "dim": [
+                        1,
+                        512
+                    ]
+                },
+                {
+                    "symbol": "t_1",
+                    "dim": [
+                        512,
+                        512
+                    ]
+                },
+                {
+                    "symbol": "_",
+                    "dim": [
+                        1,
+                        512
+                    ]
+                }
+            ]
+        },
+        {
+            "instr": "F32MATRIX_ADD",
+            "args": [
+                {
+                    "symbol": "primals_4",
+                    "dim": [
+                        512
+                    ]
+                },
+                {
+                    "symbol": "_",
+                    "dim": [
+                        1,
+                        512
+                    ]
+                },
+                {
+                    "symbol": "addmm_1",
+                    "dim": [
+                        1,
+                        512
+                    ]
+                }
+            ]
+        },
+        {
+            "instr": "F32RELU",
+            "args": [
+                {
+                    "symbol": "addmm_1",
+                    "dim": [
+                        1,
+                        512
+                    ]
+                },
+                {
+                    "symbol": "relu_1",
+                    "dim": [
+                        1,
+                        512
+                    ]
+                }
+            ]
+        },
+        {
+            "instr": "32TRANSPOSE",
+            "args": [
+                {
+                    "symbol": "primals_5",
+                    "dim": [
+                        10,
+                        512
+                    ]
+                },
+                {
+                    "symbol": "t_2",
+                    "dim": [
+                        512,
+                        10
+                    ]
+                }
+            ]
+        },
+        {
+            "instr": "F32MATRIX_MUL",
+            "args": [
+                {
+                    "symbol": "relu_1",
+                    "dim": [
+                        1,
+                        512
+                    ]
+                },
+                {
+                    "symbol": "t_2",
+                    "dim": [
+                        512,
+                        10
+                    ]
+                },
+                {
+                    "symbol": "_",
+                    "dim": [
+                        1,
+                        512
+                    ]
+                }
+            ]
+        },
+        {
+            "instr": "F32MATRIX_ADD",
+            "args": [
+                {
+                    "symbol": "primals_6",
+                    "dim": [
+                        10
+                    ]
+                },
+                {
+                    "symbol": "_",
+                    "dim": [
+                        1,
+                        512
+                    ]
+                },
+                {
+                    "symbol": "addmm_2",
+                    "dim": [
+                        1,
+                        10
+                    ]
+                }
+            ]
+        }
+    ]
+}
