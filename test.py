@@ -20,5 +20,5 @@ class NeuralNetwork(nn.Module):
 
 model=NeuralNetwork()
 
-zeoapi.tracer.trace_a_module(model, backward=False)
+zeoapi.tracer.trace_a_module(model)
 

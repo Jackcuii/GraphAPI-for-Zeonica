@@ -48,8 +48,14 @@ def find_anon(args):
 
 def literal(line):
   line = line.split(" = ")
+  #print(line)
   dest = formal_type_parser(line[0][4:])
-  func_call = re.findall(".+;",line[1])[0][:-1]
+  func_call = re.findall(".+;",line[1])
+  if not func_call==[]:
+    func_call = func_call[0][:-1]
+  else:
+    func_call = line[1]
+  
   #print(func_call)
   func_name = re.findall(".+\(", func_call)[0][:-1]
   func_args = find_anon(func_call).split(", ")
@@ -71,6 +77,7 @@ def code_process(code):
 
     # process the operators part.
   code = code[5:-2]
+  #print("code is",code,"jaahhahie")
   for line in code:
     literal(line)
 
