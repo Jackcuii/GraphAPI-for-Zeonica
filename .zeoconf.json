@@ -7,24 +7,50 @@
         "relu": {
             "I": ["src0"],
             "O": ["dst0"],
+            "X": true,
             "shape": [
                 {
                     "appendix": "_v",
-                    "Idir": "north",
-                    "Iaxis": 0,
-                    "Odir": "south",
-                    "Oaxis": 0,
+                    "Idir": ["north"],
+                    "Iaxis": [0],
+                    "Odir": ["south"],
+                    "Oaxis": [0],
                     "height": "lambda s, d: 1", 
                     "width": "lambda s, d: s[0]"
                 },
                 {
                     "appendix": "_h",
-                    "Idir": "north",
-                    "Iaxis": 0,
-                    "Odir": "south",
-                    "Oaxis": 0,
+                    "Idir": ["north"],
+                    "Iaxis": [0],
+                    "Odir": ["south"],
+                    "Oaxis": [0],
                     "height": "lambda s, d: 1", 
                     "width": "lambda s, d: s[0]"
+                }
+            ]
+        },
+        "mm": {
+            "I": ["src0", "src1"],
+            "O": ["dst0"],
+            "X": false,
+            "shape": [
+                {
+                    "appendix": "_eo",
+                    "Idir": ["west", "north"],
+                    "Iaxis": [0, 1],
+                    "Odir": ["east"],
+                    "Oaxis": [0],
+                    "height": "lambda s0, s1, d: s0[0]", 
+                    "width": "lambda s0, s1, d: s1[1]"
+                },
+                {
+                    "appendix": "_so",
+                    "Idir": ["west", "north"],
+                    "Iaxis": [0, 1],
+                    "Odir": ["south"],
+                    "Oaxis": [1],
+                    "height": "lambda s0, s1, d: s0[0]", 
+                    "width": "lambda s0, s1, d: s1[1]"
                 }
             ]
         }
