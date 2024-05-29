@@ -17,6 +17,9 @@ class NeuralNetwork(nn.Module):
         logits = self.linear_relu_stack(x)
         return logits
 
+import os
+current_directory = os.getcwd()
+os.environ['ZEO_CONFIG'] = current_directory
 
 model=NeuralNetwork()
 

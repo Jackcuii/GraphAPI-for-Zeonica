@@ -104,7 +104,7 @@ def trace_a_module(model, backward=True):
     print("compiler called")
     global forward_code
     forward_code += str(fx_module._graph.python_code(root_module="self", verbose=True).src)
-    #print(forward_code)
+    print(forward_code)
     return make_boxed_func(fx_module.forward)
   def b_compiler(fx_module: torch.fx.GraphModule, _):
     print("compiler called")
@@ -124,4 +124,24 @@ def trace_a_module(model, backward=True):
   jsonize() 
 
 
+import os
+import json
 
+def find_and_open_zeoconf():
+
+  zeo_config = os.getenv('ZEO_CONFIG')
+  if zeo_config is None:
+    print("ZEO_CONFIG environment variable is not set.")
+    return None
+  for path in zeo_config.split(os.pathsep):
+    file_path = os.path.join(path, '.zeoconf.json')
+    if os.path.isfile(file_path):
+      with open(file_path, 'r') as file:
+        return json.load(file)
+
+  print("zeoconf.json not found in any of the paths specified in ZEO_CONFIG.")
+  return None
+
+
+def make_a_layout():
+  pass

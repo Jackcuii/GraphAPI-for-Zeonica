@@ -1,0 +1,32 @@
+{
+    "Version": "0.1",
+    "WeightStreaming": false,
+    "PerformanceOptimize": false,
+    "LayoutStrategy": "Default",
+    "lib": {
+        "relu": {
+            "I": ["src0"],
+            "O": ["dst0"],
+            "shape": [
+                {
+                    "appendix": "_v",
+                    "Idir": "north",
+                    "Iaxis": 0,
+                    "Odir": "south",
+                    "Oaxis": 0,
+                    "height": "lambda s, d: 1", 
+                    "width": "lambda s, d: s[0]"
+                },
+                {
+                    "appendix": "_h",
+                    "Idir": "north",
+                    "Iaxis": 0,
+                    "Odir": "south",
+                    "Oaxis": 0,
+                    "height": "lambda s, d: 1", 
+                    "width": "lambda s, d: s[0]"
+                }
+            ]
+        }
+    }
+}
