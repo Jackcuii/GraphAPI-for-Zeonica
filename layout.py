@@ -12,12 +12,15 @@ class Layout():
         self.height = height
         self.slabs = []
     def add_slab(self, slab):
-        pass
+        if not self.detect_space_collsion(slab):
+            self.slabs.append(slab)
+            return True
+        return False
     @staticmethod
     def detect_space_collsion(self, new):
         # check the new slab with all the existing slabs
         for slab in self.slabs:
-            if slab.x < new.x + new.width and new.x < slab.x + slab.width and slab.y < new.y + new.height and new.y < slab.y + slab.height:
+            if not (slab.x + slab.width < new.x or slab.y + slab.height < new.y or slab.x > new.x + new.width or slab.y > new.y + new.height):
                 return True
         if new.x + new.width > self.width or new.y + new.height > self.height:
             return True

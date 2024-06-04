@@ -1,6 +1,6 @@
 from zeoapi.helper import *
 from zeoapi.dag import *
-import zeoapi.config
+#import zeoapi.config
 
 def addmm(dest, args, var_dict, graph):
     assert len(args)==3, "Interpret [addmm] fail, please check it."
