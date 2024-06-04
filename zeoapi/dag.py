@@ -71,7 +71,7 @@ class DAG:
             for child in self.nodes[node].children:
                 edges.append((node, child, self.nodes[node].op, self.nodes[node].shape))
         return edges
-    def print_dag(): # display the DAG with graphviz
+    def print_dag(self): # display the DAG with graphviz
         import graphviz
         dot = graphviz.Digraph()
         for node in self.nodes:

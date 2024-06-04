@@ -94,7 +94,7 @@ def code_process(code):
   for line in code:
     literal(line)
 
-  dag.print_dag
+  dag.print_dag()
 
 def jsonize():
   file = open("./instr-sequence.json","w")

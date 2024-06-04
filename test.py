@@ -23,5 +23,5 @@ os.environ['ZEO_CONFIG'] = current_directory
 
 model=NeuralNetwork()
 
-zeoapi.tracer.trace_a_module(model)
+zeoapi.tracer.trace_a_module(model,backward=False)
 
