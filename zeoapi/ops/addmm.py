@@ -17,9 +17,9 @@ def addmm(dest, args, var_dict, graph):
         graph.add_node(DAGnode(dest+"_mm", "mm", var_dict[dest][1]))
         graph.add_edge(args[0], dest+"_mm")
         graph.add_edge(args[1], dest+"_mm")
-        graph.add_node(DAGnode(dest+"_add", "add", var_dict[dest][1]))
-        graph.add_edge(args[2], dest+"_add")
-        graph.add_edge(dest+"_mm", dest+"_add")
+        graph.add_node(DAGnode(dest, "add", var_dict[dest][1]))
+        graph.add_edge(args[2], dest)
+        graph.add_edge(dest+"_mm", dest)
     #seq += [make_instr_3op("F32MATRIX_MUL", args[1], var_dict[args[1]][1], args[2], var_dict[args[2]][1], "_", [ var_dict[args[1]][1][0], var_dict[args[2]][1][0] ])]
     #seq += [make_instr_3op("F32MATRIX_ADD", args[0], var_dict[args[0]][1], "_", [ var_dict[args[1]][1][0], var_dict[args[2]][1][0] ], dest, var_dict[dest][1] )] 
 
