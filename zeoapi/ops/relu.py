@@ -1,4 +1,5 @@
 from zeoapi.helper import *
+from zeoapi.dag import *
 
 def relu(dest, args, var_dict, graph):
     assert len(args)==1, "Interpret [relu] fail, please check it."

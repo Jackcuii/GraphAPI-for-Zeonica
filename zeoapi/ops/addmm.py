@@ -8,7 +8,7 @@ def addmm(dest, args, var_dict, graph):
     # TO-DO: enable real LOAD/STORE
     # seq+=make_instr_1op("LOAD32", "_", var_dict[args
     print("addmm", dest, args)
-    if zeoapi.config.LME:
+    if False:
         graph.add_node(DAGnode(dest, "addlmm", var_dict[dest][1]))
         graph.add_edge(args[0], dest)
         graph.add_edge(args[1], dest)

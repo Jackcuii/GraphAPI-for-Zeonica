@@ -6,7 +6,7 @@ def mm(dest, args, var_dict, graph):
     # TO-DO: support multiple width and type
     # TO-DO: enable real LOAD/STORE
     # seq+=make_instr_1op("LOAD32", "_", var_dict[args
-    print("mm", dest, args, seq, var_dict)
+    print("mm", dest, args)
     graph.add_node(DAGnode(dest, "mm", var_dict[dest][1]))
     graph.add_edge(args[0], dest)
     graph.add_edge(args[1], dest)
