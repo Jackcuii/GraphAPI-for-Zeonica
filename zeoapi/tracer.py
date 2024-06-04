@@ -1,8 +1,18 @@
 import re
 import json
+from zeoapi.dag import *
+
 var_dict={}
 
 instr_seq = [];
+
+node_cnt = 0
+dag = DAG()
+
+
+def make_graph(dest, name, args):
+  print("make graph:", dest, name, args)
+
 
 '''
 formal_type_parser(item: string) -> string
@@ -12,20 +22,22 @@ and register it to the var_dict
 then return the var name
 '''
 
-def formal_type_parser(item):
+def formal_type_parser(item, input=False):
   #print("formal type:", item)
   item = item.split(": ")
   name = item[0]
   assert item[1][3]=='[', "FATAL: Sorry, we only support i16, i32, i64, f16, f32, f64 now."
-  type = item[1][:2]
+  type_ = item[1][:2]
   item[1] = item[1][3:]
   dimension = eval(item[1])
-  var_dict[name] = (type, dimension)
+  var_dict[name] = (type_, dimension)
+  if input:
+    dag.add_node(DAGnode(name, "input", dimension))
   return name
 
 def semantic(dest, name, args):
   import zeoapi.oplist
-  zeoapi.oplist.llist[name](dest, args, instr_seq, var_dict)
+  zeoapi.oplist.llist[name](dest, args, var_dict, dag)
   #print("SEQ: ", instr_seq)
 
 
@@ -59,6 +71,7 @@ def literal(line):
   #print(func_call)
   func_name = re.findall(".+\(", func_call)[0][:-1]
   func_args = find_anon(func_call).split(", ")
+  make_graph(dest, func_name, func_args)
   semantic(dest, func_name, func_args)
 
 def code_process(code):
@@ -80,6 +93,8 @@ def code_process(code):
   #print("code is",code,"jaahhahie")
   for line in code:
     literal(line)
+
+  dag.print_dag
 
 def jsonize():
   file = open("./instr-sequence.json","w")

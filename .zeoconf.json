@@ -59,15 +59,15 @@
             ]
         },
         "addlmm": {
-            "I": ["src0", "src1"],
+            "I": ["src0", "src1", "src2"],
             "O": ["dst0"],
             "X": false,
             "LME": true,
             "shape": [
                 {
                     "appendix": "_eo",
-                    "Idir": ["west", "north"],
-                    "Iaxis": [0, 1],
+                    "Idir": ["west", "north", "local"],
+                    "Iaxis": [0, 1, -1],
                     "Odir": ["east"],
                     "Oaxis": [0],
                     "height": "lambda s0, s1, d: s0[0]", 
@@ -83,7 +83,33 @@
                     "width": "lambda s0, s1, d: s1[1]"
                 }
             ]
-        }
+        },
+        "trp": {
+            "I": ["src0"],
+            "O": ["dst0"],
+            "X": true,
+            "LME": false,
+            "shape": [
+                {
+                    "appendix": "_v",
+                    "Idir": ["north"],
+                    "Iaxis": [0],
+                    "Odir": ["south"],
+                    "Oaxis": [0],
+                    "height": "lambda s, d: s[0]", 
+                    "width": "lambda s, d: 1"
+                },
+                {
+                    "appendix": "_h",
+                    "Idir": ["north"],
+                    "Iaxis": [0],
+                    "Odir": ["south"],
+                    "Oaxis": [0],
+                    "height": "lambda s, d: s[0]", 
+                    "width": "lambda s, d: 1"
+                }
+            ]
+        },
 
     }
 }
