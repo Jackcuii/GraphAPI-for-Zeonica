@@ -6,7 +6,7 @@ def sum(dest, args, seq, var_dict):
     # TO-DO: support multiple width and type
     # TO-DO: enable real LOAD/STORE
     # seq+=make_instr_1op("LOAD32", "_", var_dict[args
-    seq+=[make_instr_1op("F32SUM", args[0], var_dict[args[0]][1])] 
+    #seq+=[make_instr_1op("F32SUM", args[0], var_dict[args[0]][1])] 
     
 
 

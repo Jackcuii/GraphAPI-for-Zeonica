@@ -1,11 +1,14 @@
 from zeoapi.helper import *
 
-def relu(dest, args, seq, var_dict):
+def relu(dest, args, var_dict, graph):
     assert len(args)==1, "Interpret [relu] fail, please check it."
     # TO-DO: support multiple width and type
     # TO-DO: enable real LOAD/STORE
     # seq+=make_instr_1op("LOAD32", "_", var_dict[args
-    seq += [make_instr_2op("F32RELU", args[0], var_dict[args[0]][1], dest, var_dict[dest][1] )] 
+    print("relu", dest, args)
+    graph.add_node(DAGnode(dest, "relu", var_dict[dest][1]))
+    graph.add_edge(args[0], dest)
+    #seq += [make_instr_2op("F32RELU", args[0], var_dict[args[0]][1], dest, var_dict[dest][1] )] 
 
 
 
