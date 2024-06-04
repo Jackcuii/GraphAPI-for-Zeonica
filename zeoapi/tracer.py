@@ -86,7 +86,7 @@ def code_process(code):
   para_line[0] = para_line[0][6:] # omit self
   # para_line = [for item in re.findall(".+, ", para_line) if item.count(": ")]para_line.split(", ")
   # para_line = para_line[1:] # omit self
-  para_line = [ formal_type_parser(item) for item in para_line ]
+  para_line = [ formal_type_parser(item, input=True) for item in para_line ]
 
     # process the operators part.
   code = code[5:-2]
