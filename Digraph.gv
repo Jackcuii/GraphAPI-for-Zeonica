@@ -1,0 +1,39 @@
+digraph {
+	primals_1 [label="primals_1:input"]
+	primals_2 [label="primals_2:input"]
+	primals_3 [label="primals_3:input"]
+	primals_4 [label="primals_4:input"]
+	primals_5 [label="primals_5:input"]
+	primals_6 [label="primals_6:input"]
+	primals_7 [label="primals_7:input"]
+	view [label="view:transform"]
+	t [label="t:transpose"]
+	addmm_mm [label="addmm_mm:mm"]
+	addmm [label="addmm:add"]
+	relu [label="relu:relu"]
+	t_1 [label="t_1:transpose"]
+	addmm_1_mm [label="addmm_1_mm:mm"]
+	addmm_1 [label="addmm_1:add"]
+	relu_1 [label="relu_1:relu"]
+	t_2 [label="t_2:transpose"]
+	addmm_2_mm [label="addmm_2_mm:mm"]
+	addmm_2 [label="addmm_2:add"]
+	primals_1 -> t
+	primals_2 -> addmm_mm
+	primals_3 -> t_1
+	primals_4 -> addmm_1_mm
+	primals_5 -> t_2
+	primals_6 -> addmm_2_mm
+	primals_7 -> view
+	view -> addmm_mm
+	t -> addmm
+	addmm_mm -> addmm
+	addmm -> relu
+	relu -> addmm_1_mm
+	t_1 -> addmm_1
+	addmm_1_mm -> addmm_1
+	addmm_1 -> relu_1
+	relu_1 -> addmm_2_mm
+	t_2 -> addmm_2
+	addmm_2_mm -> addmm_2
+}

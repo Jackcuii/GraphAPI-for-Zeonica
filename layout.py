@@ -25,4 +25,7 @@ class Layout():
         if new.x + new.width > self.width or new.y + new.height > self.height:
             return True
         return False
-    
+
+    def draw_the_layout():
+        # use matplotlib to draw the layout
+        pass
