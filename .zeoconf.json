@@ -3,10 +3,10 @@
     "WeightStreaming": false,
     "PerformanceOptimize": false,
     "FoldEnable": false,
-    "LocalMemEnable": false,
+    "PreLocalMemEnable": false,
     "LayoutStrategy": "Default",
-    "lib": {
-        "relu": {
+    "lib": { 
+        "relu ": {
             "I": ["src0"],
             "O": ["dst0"],
             "X": true,
@@ -31,7 +31,7 @@
                     "width": "lambda s, d: s[0]"
                 }
             ]
-        },
+        }, 
         "mm": {
             "I": ["src0", "src1"],
             "O": ["dst0"],
@@ -65,13 +65,13 @@
             "LME": true,
             "shape": [
                 {
-                    "appendix": "_eo",
+                    "appendix": "_uwp",
                     "Idir": ["west", "north", "local"],
                     "Iaxis": [0, 1, -1],
                     "Odir": ["east"],
                     "Oaxis": [0],
-                    "height": "lambda s0, s1, d: s0[0]", 
-                    "width": "lambda s0, s1, d: s1[1]"
+										"PipeG": "[ lambda s0, s1, : ZeoTensor([s0.dim[0], s1.dim[1]], (s0.dirc[0], i), []) for i in [0,1] ]",
+                    "aPipeG": "[ lambda d: ZeoTensor([d.dim[0], d.dim[1]], (s0.dirc[0], i), []) for i in [0,1] ]",
                 },
                 {
                     "appendix": "_so",

@@ -8,32 +8,38 @@ digraph {
 	primals_7 [label="primals_7:input"]
 	view [label="view:transform"]
 	t [label="t:transpose"]
-	addmm_mm [label="addmm_mm:mm"]
-	addmm [label="addmm:add"]
+	addmm [label="addmm:addlmm"]
+	schdlr0_4_addmm [label="schdlr0_4_addmm:addlmm_schdlr"]
+	schdlr1_4_addmm [label="schdlr1_4_addmm:addlmm_schdlr"]
 	relu [label="relu:relu"]
 	t_1 [label="t_1:transpose"]
-	addmm_1_mm [label="addmm_1_mm:mm"]
-	addmm_1 [label="addmm_1:add"]
+	addmm_1 [label="addmm_1:addlmm"]
+	schdlr0_4_addmm_1 [label="schdlr0_4_addmm_1:addlmm_schdlr"]
+	schdlr1_4_addmm_1 [label="schdlr1_4_addmm_1:addlmm_schdlr"]
 	relu_1 [label="relu_1:relu"]
 	t_2 [label="t_2:transpose"]
-	addmm_2_mm [label="addmm_2_mm:mm"]
-	addmm_2 [label="addmm_2:add"]
+	addmm_2 [label="addmm_2:addlmm"]
+	schdlr0_4_addmm_2 [label="schdlr0_4_addmm_2:addlmm_schdlr"]
+	schdlr1_4_addmm_2 [label="schdlr1_4_addmm_2:addlmm_schdlr"]
 	primals_1 -> t
-	primals_2 -> addmm_mm
+	primals_2 -> schdlr0_4_addmm
 	primals_3 -> t_1
-	primals_4 -> addmm_1_mm
+	primals_4 -> schdlr0_4_addmm_1
 	primals_5 -> t_2
-	primals_6 -> addmm_2_mm
+	primals_6 -> schdlr0_4_addmm_2
 	primals_7 -> view
-	view -> addmm_mm
-	t -> addmm
-	addmm_mm -> addmm
+	view -> schdlr1_4_addmm
+	t -> schdlr1_4_addmm
 	addmm -> relu
-	relu -> addmm_1_mm
-	t_1 -> addmm_1
-	addmm_1_mm -> addmm_1
+	schdlr0_4_addmm -> addmm
+	schdlr1_4_addmm -> addmm
+	relu -> schdlr1_4_addmm_1
+	t_1 -> schdlr1_4_addmm_1
 	addmm_1 -> relu_1
-	relu_1 -> addmm_2_mm
-	t_2 -> addmm_2
-	addmm_2_mm -> addmm_2
+	schdlr0_4_addmm_1 -> addmm_1
+	schdlr1_4_addmm_1 -> addmm_1
+	relu_1 -> schdlr1_4_addmm_2
+	t_2 -> schdlr1_4_addmm_2
+	schdlr0_4_addmm_2 -> addmm_2
+	schdlr1_4_addmm_2 -> addmm_2
 }

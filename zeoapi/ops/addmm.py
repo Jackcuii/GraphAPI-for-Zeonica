@@ -1,6 +1,7 @@
 from zeoapi.helper import *
 from zeoapi.tracer import *
-from zeoapi.dag import *
+from zeoapi.zeotensor import *
+import zeoapi.dag
 #import zeoapi.config
 
 def addmm(dest, args, var_dict, graph):
@@ -8,11 +9,16 @@ def addmm(dest, args, var_dict, graph):
     # TO-DO: support multiple width and type
     # TO-DO: enable real LOAD/STORE
     # seq+=make_instr_1op("LOAD32", "_", var_dict[args
-    print("addmm", dest, args)
-    if config["LME"]:
+    #print("addmm", dest, args)
+    if zeoapi.tracer.config["PreLocalMemEnable"]:
         graph.add_node(DAGnode(dest, "addlmm", Dimension(var_dict[dest][1])))
-        graph.add_edge(args[0], dest)
-        graph.add_edge(args[1], dest) # caution the turn!
+        graph.add_node(DAGnode("schdlr0_4_"+dest, "addlmm_schdlr", Dimension(var_dict[args[0]][1])))
+        graph.add_node(DAGnode("schdlr1_4_"+dest, "addlmm_schdlr", Dimension(var_dict[args[1]][1])))
+        graph.add_edge(args[0], "schdlr0_4_"+dest)
+        graph.add_edge(args[1], "schdlr1_4_"+dest) # caution the turn!
+        graph.add_edge("schdlr0_4_"+dest, dest)
+        graph.add_edge("schdlr1_4_"+dest, dest)
+        graph.add_edge(args[2], "schdlr1_4_"+dest)
     else:
         graph.add_node(DAGnode(dest+"_mm", "mm", Dimension(var_dict[dest][1])))
         graph.add_edge(args[0], dest+"_mm")

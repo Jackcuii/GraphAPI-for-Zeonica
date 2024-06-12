@@ -8,7 +8,7 @@ instr_seq = [];
 
 node_cnt = 0
 dag = DAG()
-config = None
+config = {"PreLocalMemEnable": True}
 
 def make_graph(dest, name, args):
   print("make graph:", dest, name, args)
@@ -157,12 +157,12 @@ def find_and_open_zeoconf():
   print("zeoconf.json not found in any of the paths specified in ZEO_CONFIG.")
   return None
 
+#from zeoapi.naivesta import *
 
 def make_layout():
   config = find_and_open_zeoconf()
   assert config[Version] == "0.1", "FATAL: zeoconf.json version not supported."
   if config[LayoutStrategy] == "Default":
-    from zeoapi.naivesta import *
     make_a_layout(dag, Layout(config[width], config[height]))
   
 

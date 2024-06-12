@@ -2,7 +2,8 @@ class DAGnode:
     def __init__(self, name, op, shape):
         self.name = name
         self.op = op
-        self.shape = shape
+        self.res = shape
+        self.map = None
         self.parents = []
         self.children = []
 
