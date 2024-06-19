@@ -2,76 +2,63 @@ class DAGnode:
     def __init__(self, name, op, shape):
         self.name = name
         self.op = op
-        self.res = shape
+        self.res = None
+        self.shape = shape
         self.map = None
+        self.start = None
         self.parents = []
         self.children = []
+    def __str__(self):
+        s = self.name + f"[{self.op}]" + f"({self.res})"
+        s = s + ("mapped" if self.map else "unmapped")
+        s += "\n"
+        for parent in self.parents:
+            s += "<-" + parent.name + "\n"
+        for child in self.children:
+            s += "->" + child.name + "\n"
+        return s 
 
 class DAG:
     def __init__(self):
         self.nodes = {}
+        self.tmp_blocked_lst = []  # [(parent, child), ...]
+        self.tmp_cut_lst = []
     def add_node(self, node):
         self.nodes[node.name] = node
+    def delete_node(self, node):
+        self.nodes.pop(node.name)
     def add_edge(self, parent, child):
-        self.nodes[parent].children.append(child)
-        self.nodes[child].parents.append(parent)
-    def remove_edge(self, parent, child):
-        self.nodes[parent].children.remove(child)
-        self.nodes[child].parents.remove(parent)
-    def remove_node(self, node):
-        for parent in self.nodes[node].parents:
-            self.nodes[parent].children.remove(node)
-        for child in self.nodes[node].children:
-            self.nodes[child].parents.remove(node)
-        del self.nodes[node]
-    def get_roots(self):
-        roots = []
-        for node in self.nodes:
-            if self.nodes[node].parents == []:
-                roots.append(node)
-        return roots
-    def get_leaves(self):
-        leaves = []
-        for node in self.nodes:
-            if self.nodes[node].children == []:
-                leaves.append(node)
-        return leaves
-    def get_node(self, name):
-        return self.nodes[name]
-    def get_children(self, name):
-        return self.nodes[name].children
-    def get_parents(self, name):
-        return self.nodes[name].parents
-    def get_shape(self, name):
-        return self.nodes[name].shape
-    def get_op(self, name):
-        return self.nodes[name].op
-    def get_all_nodes(self):
-        return self.nodes
-    def get_all_edges(self):
-        edges = []
-        for node in self.nodes:
-            for child in self.nodes[node].children:
-                edges.append((node, child))
-        return edges
-    def get_all_edges_with_op(self):
-        edges = []
-        for node in self.nodes:
-            for child in self.nodes[node].children:
-                edges.append((node, child, self.nodes[node].op))
-        return edges
-    def get_all_edges_with_shape(self):
-        edges = []
-        for node in self.nodes:
-            for child in self.nodes[node].children:
-                edges.append((node, child, self.nodes[node].shape))
-        return edges
-    def get_all_edges_with_op_shape(self):
-        edges = []
-        for node in self.nodes:
-            for child in self.nodes[node].children:
-                edges.append((node, child, self.nodes[node].op, self.nodes[node].shape))
-        return edges
+        self.nodes[parent].children.append(self.nodes[child])
+        self.nodes[child].parents.append(self.nodes[parent])
+    def delete_node_and_link(self, node):
+        # the node has a parent and a childern, linke them
+        print("d&l", node)
+        node.parents[0].children.remove(node)
+        node.children[0].parents.remove(node)
+        self.add_edge(node.parents[0].name, node.children[0].name)
+        self.nodes.pop(node.name)
+        del node
+    def delete_edge(self, parent, child):
+        self.nodes[parent].children.remove(self.nodes[child])
+        self.nodes[child].parents.remove(self.nodes[parent])
+    def block_node(self, node):
+        self.tmp_blocked_lst.append(node)
+        for child in node.children:
+            self.tmp_cut_lst.append((node, child))
+            self.delete_edge(node.name, child.name)
+        for parent in node.parents:
+            self.tmp_cut_lst.append((parent, node))
+            self.delete_edge(parent.name, node.name)
+        self.delete_node(node)
+    def revert_block(self):
+        for node in self.tmp_blocked_lst:
+            self.add_node(node)
+        for edge in self.tmp_cut_lst:
+            self.add_edge(edge[0].name, edge[1].name)
+        self.tmp_blocked_lst = []
+        self.tmp_cut_lst = []
+        
+
     def print_dag(self): # display the DAG with graphviz
         import graphviz
         dot = graphviz.Digraph()
@@ -79,5 +66,10 @@ class DAG:
             dot.node(node, label=node+":"+self.nodes[node].op)
         for node in self.nodes:
             for child in self.nodes[node].children:
-                dot.edge(node, child)
+                dot.edge(node, child.name)
         dot.view()
+    def find_node_without_son(self):
+        for node in self.nodes:
+            if self.nodes[node].children == []:
+                return self.nodes[node]
+        return None

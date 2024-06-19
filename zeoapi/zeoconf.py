@@ -1,5 +1,5 @@
 from zeoapi.zeotensor import *
-
+from copy import deepcopy
 
 class nodeOP: #TODO support wrap
     @classmethod
@@ -19,7 +19,7 @@ class OP_addlmm_uwp(nodeOP):
         def anon(src:list, dst:list):
             assert len(src) == 2
             assert len(dst) == 1
-            src0, src1 = *src
+            src0, src1 = src[0], src[1]
             dstd = dst[0]
             if not (src0.flow == Flow("EAST") and src0.flow == Flow("SOUTH")):
                 return None
@@ -35,12 +35,16 @@ class OP_addlmm_uwp(nodeOP):
         def anon(src: list, dst: list):
             assert len(src) == 2
             assert len(dst) == 1
-            src0d, src1d = *src
+            src0d, src1d = src[0], src[1]
             src0d = deepcopy(src0d)
             src1d = deepcopy(src1d)
             dst = dst[0]
             assert type(dst) == ZeoTensor
-            if not (dst.flow == Flow("EAST") and dst.flow == Flow("SOUTH")):
+            print("dst", dst)
+            print("src0d", src0d)
+            print("src1d", src1d)
+            if not (dst.flow == Flow("EAST") or dst.flow == Flow("SOUTH")):
+                print("\33[34mAlert: Invalid flow direction\33[0m")
                 return None
             wrap0 = Dimension([])
             wrap1 = Dimension([])
@@ -80,6 +84,8 @@ class attachOP(nodeOP):
             srcd = src[0]
             srcd = deepcopy(srcd)
             dst = dst[0]
+            print("dst", dst)
+            print("srcd", srcd)
             assert type(dst) == ZeoTensor
             flow = Flow(dst.flow.dir)
             dirc = deepcopy(dst.dirc)
@@ -91,9 +97,9 @@ class attachOP(nodeOP):
     def setWH(cls, src:list, dst:list):  # W,H
         a = src[0].dim[src[0].dirc[1]]
         b = 1
-        return (b, a) if src[0].flow == Flow("SOUTH") else (a, b)
+        return (a, b) if src[0].flow == Flow("SOUTH") else (b, a)
 
-class OP_addlmm_schdlr(attachOP):
+class OP_addlmm_schdlr_uwp(attachOP):
     pass
 
 class OP_relu_uwp(attachOP):

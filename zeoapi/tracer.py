@@ -1,14 +1,19 @@
 import re
 import json
 from zeoapi.dag import *
+from zeoapi.layout import *
+from zeoapi.oplist import *
+from zeoapi.naivesta import *
+from zeoapi.zeotensor import *
 
 var_dict={}
 
-instr_seq = [];
+instr_seq = []
 
 node_cnt = 0
 dag = DAG()
-config = {"PreLocalMemEnable": True}
+config = {"PreLocalMemEnable": True, "Width":64 , "Height":64}
+layout = Layout(config["Width"], config["Height"])
 
 def make_graph(dest, name, args):
   print("make graph:", dest, name, args)
@@ -32,7 +37,7 @@ def formal_type_parser(item, input=False):
   dimension = eval(item[1])
   var_dict[name] = (type_, dimension)
   if input:
-    dag.add_node(DAGnode(name, "input", dimension))
+    dag.add_node(DAGnode(name, "input", Dimension(dimension)))
   return name
 
 def semantic(dest, name, args):
@@ -94,7 +99,7 @@ def code_process(code):
   for line in code:
     literal(line)
 
-  dag.print_dag()
+  #dag.print_dag()
 
 def jsonize():
   file = open("./instr-sequence.json","w")
@@ -128,7 +133,7 @@ def trace_a_module(model, backward=True):
     return make_boxed_func(fx_module.forward)
   from torch._subclasses import FakeTensorMode
   with FakeTensorMode(allow_non_fake_inputs=True):
-    a=torch.randn(1,28,28, requires_grad=True,device="cpu") 
+    a=torch.randn(1,8,8, requires_grad=True,device="cpu") 
     aot_print_fn = aot_module(model, fw_compiler=f_compiler,bw_compiler=b_compiler)
     run_func(aot_print_fn, a)
   #print("hahah:",forward_code)
@@ -136,7 +141,8 @@ def trace_a_module(model, backward=True):
   code_process(forward_code)
   if(backward):
     code_process(backward_code)
-  jsonize() 
+  make_a_layout(dag, layout)
+  layout.draw_the_layout()
 
 
 import os

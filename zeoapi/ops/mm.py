@@ -1,6 +1,5 @@
 from zeoapi.helper import *
 from zeoapi.dag import *
-from zeoapi.dimension import *
 
 def mm(dest, args, var_dict, graph):
     assert len(args)==2, "Interpret [mm] fail, please check it."

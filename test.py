@@ -1,5 +1,6 @@
 import zeoapi.tracer
 from torch import nn
+'''
 class NeuralNetwork(nn.Module):
     def __init__(self):
         super().__init__()
@@ -16,6 +17,25 @@ class NeuralNetwork(nn.Module):
         x = self.flatten(x)
         logits = self.linear_relu_stack(x)
         return logits
+'''
+
+class NeuralNetwork(nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.flatten = nn.Flatten()
+        self.linear_relu_stack = nn.Sequential(
+            nn.Linear(8*8, 10),
+            nn.ReLU(),
+            nn.Linear(10, 10),
+            nn.ReLU(),
+            nn.Linear(10, 3),
+        )
+
+    def forward(self, x):
+        x = self.flatten(x)
+        logits = self.linear_relu_stack(x)
+        return logits
+
 
 import os
 current_directory = os.getcwd()

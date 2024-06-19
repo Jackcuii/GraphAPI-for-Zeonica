@@ -12,20 +12,20 @@ def addmm(dest, args, var_dict, graph):
     #print("addmm", dest, args)
     if zeoapi.tracer.config["PreLocalMemEnable"]:
         graph.add_node(DAGnode(dest, "addlmm", Dimension(var_dict[dest][1])))
-        graph.add_node(DAGnode("schdlr0_4_"+dest, "addlmm_schdlr", Dimension(var_dict[args[0]][1])))
-        graph.add_node(DAGnode("schdlr1_4_"+dest, "addlmm_schdlr", Dimension(var_dict[args[1]][1])))
-        graph.add_edge(args[0], "schdlr0_4_"+dest)
-        graph.add_edge(args[1], "schdlr1_4_"+dest) # caution the turn!
+        graph.add_node(DAGnode("schdlr0_4_"+dest, "addlmm_schdlr", Dimension(var_dict[args[1]][1])))
+        graph.add_node(DAGnode("schdlr1_4_"+dest, "addlmm_schdlr", Dimension(var_dict[args[2]][1])))
+        graph.add_edge(args[1], "schdlr0_4_"+dest)
+        graph.add_edge(args[2], "schdlr1_4_"+dest) # caution the turn!
         graph.add_edge("schdlr0_4_"+dest, dest)
         graph.add_edge("schdlr1_4_"+dest, dest)
-        graph.add_edge(args[2], "schdlr1_4_"+dest)
+        graph.add_edge(args[0], dest)
     else:
         graph.add_node(DAGnode(dest+"_mm", "mm", Dimension(var_dict[dest][1])))
-        graph.add_edge(args[0], dest+"_mm")
         graph.add_edge(args[1], dest+"_mm")
+        graph.add_edge(args[2], dest+"_mm")
         graph.add_node(DAGnode(dest, "add", Dimension(var_dict[dest][1])))
         graph.add_edge(dest+"_mm", dest)
-        graph.add_edge(args[2], dest)
+        graph.add_edge(args[0], dest)
     #seq += [make_instr_3op("F32MATRIX_MUL", args[1], var_dict[args[1]][1], args[2], var_dict[args[2]][1], "_", [ var_dict[args[1]][1][0], var_dict[args[2]][1][0] ])]
     #seq += [make_instr_3op("F32MATRIX_ADD", args[0], var_dict[args[0]][1], "_", [ var_dict[args[1]][1][0], var_dict[args[2]][1][0] ], dest, var_dict[dest][1] )] 
 

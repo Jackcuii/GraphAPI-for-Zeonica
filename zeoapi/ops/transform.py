@@ -1,5 +1,6 @@
 from zeoapi.helper import *
 from zeoapi.dag import *
+from zeoapi.zeotensor import *
 
 def transform(dest, args, var_dict, graph):
     #print(dest,args)
@@ -8,7 +9,7 @@ def transform(dest, args, var_dict, graph):
     # TO-DO: enable real LOAD/STORE
     # seq+=make_instr_1op("LOAD32", "_", var_dict[args
     print("transform", dest, args)
-    graph.add_node(DAGnode(dest, "transform", var_dict[dest][1]))
+    graph.add_node(DAGnode(dest, "transform", Dimension(var_dict[dest][1])))
     graph.add_edge(args[0], dest)
     #seq+=[make_instr_3op("32TRANSFORM", args[0], var_dict[args[0]][1], args[1], var_dict[args[1]][1], dest, var_dict[dest][1] )] 
     
