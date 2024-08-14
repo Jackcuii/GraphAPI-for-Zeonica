@@ -12,6 +12,29 @@ class ZeoTensor: # TODO: Auto process wrap in constructor
         self.flow = flow
     def __str__(self):
         return f"Tensor({self.dim.shape}, {self.dirc[0]}{self.dirc[1]}, {self.wrap.shape}, {self.flow})"
+    def get_vertical_size(self):
+        if self.flow == Flow("SOUTH"):
+            if self.dirc[1] == 1:
+                return self.dim[0]
+            else:
+                return self.dim[1]
+        elif self.flow == Flow("EAST"):
+            if self.dirc[1] == 1:
+                return self.dim[1]
+            else:
+                return self.dim[0]
+    def get_horizontal_size(self):
+        if self.flow == Flow("SOUTH"):
+            if self.dirc[1] == 1:
+                return self.dim[1]
+            else:
+                return self.dim[0]
+        elif self.flow == Flow("EAST"):
+            if self.dirc[1] == 1:
+                return self.dim[0]
+            else:
+                return self.dim[1]
+
 class Dimension:
     def __init__(self, shape=[]):
         self.shape = shape
@@ -23,6 +46,8 @@ class Dimension:
         if index >= len(self.shape):
             return 1
         return self.shape[index]
+
+    
 
 mir = {"NORTH": "SOUTH", "SOUTH": "NORTH", "EAST": "WEST", "WEST": "EAST"}
 

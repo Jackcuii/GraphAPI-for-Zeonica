@@ -5,6 +5,7 @@ from zeoapi.layout import *
 from zeoapi.oplist import *
 from zeoapi.naivesta import *
 from zeoapi.zeotensor import *
+from zeoapi.compiler import *
 
 var_dict={}
 
@@ -143,6 +144,8 @@ def trace_a_module(model, backward=True):
     code_process(backward_code)
   make_a_layout(dag, layout)
   layout.draw_the_layout()
+  mesh = Mesh(layout.width, layout.height)
+  compile(dag, layout, mesh)
 
 
 import os
