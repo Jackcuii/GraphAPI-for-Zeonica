@@ -6,5 +6,3 @@ This API is written in Python and its a published packet which could be installe
 
 You are expected to use it under at least Pytorch 2.1
 
-Up to now, this tool is just in experimental stage, so that the generated sequence will be 'fake instrs'.
-The `symbol` fields are tensors' names (though it may have the same name with some operator in lower case)
